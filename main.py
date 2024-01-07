@@ -5,7 +5,10 @@ def cesar_encrypt(plaintext, shift):
     ciphertext = ""
     for char in plaintext:
         if char.isalpha():
-            ciphertext += chr((ord(char) + shift + 64) % 26 + 65)
+            if char.isupper():
+                plaintext += chr(((ord(char) - shift - 65) % 26) + 65)
+            else:
+                plaintext += chr(((ord(char) - shift - 97) % 26) + 97)
         else:
             ciphertext += char
     return ciphertext
@@ -15,7 +18,10 @@ def cesar_decrypt(ciphertext, shift):
     plaintext= ""
     for char in ciphertext:
         if char.isalpha():
-            plaintext += chr(((ord(char) - shift - 64) % 26) + 65)
+            if char.isupper():
+                plaintext += chr(((ord(char) - shift - 65) % 26) + 65)
+            else:
+                plaintext += chr(((ord(char) - shift - 97) % 26) + 97)
         else: 
             plaintext += char
     return plaintext
@@ -28,7 +34,7 @@ def letter_frequency(l, text):
 def cesar_brute_force(ciphertext):
     min_difference = float("inf")
     shift = 0
-    alfabet = string.ascii_uppercase
+    alfabet = string.ascii_uppercase + string.ascii_lowercase
 
     for i in range(1, 26):
         plaintext = cesar_decrypt(ciphertext, i)
@@ -44,7 +50,7 @@ def cesar_brute_force(ciphertext):
     return shift
 
 
-ciphertext = cesar_encrypt("ALA MA FAJNEGO KOTA I PSA", 7)
+ciphertext = "Kvtyez Jtyffcj Gzvinjqv Kvtyezbld Gifxirdzjkptqev n Gfcjtv qrgvnezrartv girbkptqev erltqrezv"
 shift = cesar_brute_force(ciphertext)
 print("Zaszyfrowany text: ", ciphertext)
 print("Złamano szyfr klucz to: ", shift)
